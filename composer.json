@@ -1,0 +1,77 @@
+{
+    "name": "silvershop-suite/food-information",
+    "description": "Food information for SilverShop (CMS 6), usable by any shop that sells food: an allergen catalogue with per-country rule profiles (EU, UK, US, Canada, Australia/New Zealand, Japan, Codex), contains / may contain / free from per product, ingredients with allergens in bold, diet claims, label particulars, nutrition values or an exemption, roll-up for mixed products, a product-page block and a copy on every order line.",
+    "type": "silverstripe-vendormodule",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "silverstripe",
+        "silvershop",
+        "ecommerce",
+        "shop",
+        "food",
+        "allergens",
+        "ingredients",
+        "nutrition",
+        "food-information",
+        "labelling"
+    ],
+    "authors": [
+        {
+            "name": "Remy Vaartjes",
+            "email": "remy@xd.nl",
+            "role": "Lead developer"
+        },
+        {
+            "name": "SilverShop-Suite Contributors"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "silverstripe/framework": "^6.0",
+        "silverstripe/cms": "^6.0",
+        "silverstripe/reports": "^6.0",
+        "silvershop/core": "^6.2"
+    },
+    "require-dev": {
+        "cambis/silverstan": "^2.1",
+        "silverstripe/recipe-testing": "^4",
+        "silverstripe/sqlite3": "^4",
+        "squizlabs/php_codesniffer": "^3.0"
+    },
+    "suggest": {
+        "silvershop-suite/store-profile": "The shop's legal name and address are shown as the food business operator on the product page.",
+        "silvershop-suite/product-bundles": "A bundle's allergens are combined from the products in it.",
+        "silvershop-suite/product-status": "Made-to-order products (food made after the order is placed) are usually not prepacked."
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "SilverShop\\FoodInformation\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SilverShop\\FoodInformation\\Tests\\": "tests/php/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "silverstripe/recipe-plugin": true,
+            "silverstripe/vendor-plugin": true,
+            "php-http/discovery": false
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "stan": "vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=-1",
+        "lint": "vendor/bin/phpcs",
+        "lint:fix": "vendor/bin/phpcbf"
+    }
+}

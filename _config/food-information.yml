@@ -1,0 +1,140 @@
+---
+Name: silvershop-food-information
+After:
+  - silvershop-core
+---
+# Products and variations carry food information; add the extension to your own classes the same way (e.g. a
+# Flavour or Recipe DataObject) and list them in FoodComponents.component_classes to use them as components.
+SilverShop\Page\Product:
+  extensions:
+    - SilverShop\FoodInformation\Extension\FoodInformationExtension
+SilverShop\Model\Variation\Variation:
+  extensions:
+    - SilverShop\FoodInformation\Extension\FoodInformationExtension
+SilverShop\Model\OrderItem:
+  extensions:
+    - SilverShop\FoodInformation\Extension\OrderItemFoodInformationExtension
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - SilverShop\FoodInformation\Extension\FoodSiteConfigExtension
+
+SilverShop\FoodInformation\Extension\FoodInformationExtension:
+  # Classes whose records can be picked as components of a mixed product (box, assortment, gift basket).
+  component_classes:
+    - SilverShop\Page\Product
+
+# The allergen catalogue: code => [parent code, GS1 AllergenTypeCode, English name]. The union of the allergens the
+# shipped rules profiles refer to. Codes are stable keys; add entries here or in the CMS.
+SilverShop\FoodInformation\Model\Allergen:
+  catalogue:
+    gluten_cereals: ['', 'AW', 'Cereals containing gluten']
+    wheat: ['gluten_cereals', 'UW', 'Wheat']
+    spelt: ['wheat', 'GS', 'Spelt']
+    khorasan: ['wheat', 'GK', 'Khorasan wheat']
+    rye: ['gluten_cereals', 'NR', 'Rye']
+    barley: ['gluten_cereals', 'GB', 'Barley']
+    oats: ['gluten_cereals', 'GO', 'Oats']
+    crustaceans: ['', 'AC', 'Crustaceans']
+    molluscs: ['', 'UM', 'Molluscs']
+    eggs: ['', 'AE', 'Eggs']
+    fish: ['', 'AF', 'Fish']
+    milk: ['', 'AM', 'Milk']
+    peanuts: ['', 'AP', 'Peanuts']
+    soy: ['', 'AY', 'Soy']
+    sesame: ['', 'AS', 'Sesame']
+    tree_nuts: ['', 'AN', 'Tree nuts']
+    almond: ['tree_nuts', 'SA', 'Almond']
+    hazelnut: ['tree_nuts', 'SH', 'Hazelnut']
+    walnut: ['tree_nuts', 'SW', 'Walnut']
+    cashew: ['tree_nuts', 'SC', 'Cashew']
+    pecan: ['tree_nuts', 'SP', 'Pecan']
+    brazil_nut: ['tree_nuts', 'SR', 'Brazil nut']
+    pistachio: ['tree_nuts', 'ST', 'Pistachio']
+    macadamia: ['tree_nuts', 'SM', 'Macadamia']
+    pine_nut: ['tree_nuts', 'PN', 'Pine nut']
+    celery: ['', 'BC', 'Celery']
+    mustard: ['', 'BM', 'Mustard']
+    lupin: ['', 'NL', 'Lupin']
+    sulphites: ['', 'AU', 'Sulphites']
+    buckwheat: ['', 'BWD', 'Buckwheat']
+
+# code => [English name, conflicting allergen codes, needs a certificate]
+SilverShop\FoodInformation\Model\FoodClaim:
+  catalogue:
+    gluten_free: ['Gluten-free', 'wheat,rye,barley', false]
+    very_low_gluten: ['Very low gluten', 'wheat,rye,barley', false]
+    lactose_free: ['Lactose-free', '', false]
+    vegan: ['Vegan', 'milk,eggs,fish,crustaceans,molluscs', false]
+    vegetarian: ['Vegetarian', 'fish,crustaceans,molluscs', false]
+    organic: ['Organic', '', true]
+    halal: ['Halal', '', true]
+    kosher: ['Kosher', '', true]
+
+# Rules profiles per jurisdiction. Chosen in Settings > Shop > Food information (default below). Each profile:
+#   mandatory      allergen codes the law requires to be declared (a group code includes everything below it)
+#   exclude        codes below a mandatory group that this jurisdiction does not list (e.g. pine nut in the EU)
+#   name_specific  groups that must be declared by their specific member (which cereal, which nut, ...)
+#   statement      emphasis            allergens in bold in the ingredients; a "Contains" line only without ingredients
+#                  contains            a "Contains: ..." line
+#                  contains_required   a mandatory "Contains: ..." line, with "gluten" added for gluten cereals
+#   may_contain    voluntary | prohibited
+# Sources and caveats: README "Legal summary". This is not legal advice; check your own country's rules.
+SilverShop\FoodInformation\Service\FoodRules:
+  default_profile: eu
+  profiles:
+    eu:
+      title: 'EU / EEA (Regulation 1169/2011)'
+      mandatory: [gluten_cereals, crustaceans, eggs, fish, peanuts, soy, milk, tree_nuts, celery, mustard, sesame, sulphites, lupin, molluscs]
+      exclude: [pine_nut]
+      name_specific: [gluten_cereals, tree_nuts]
+      statement: emphasis
+      may_contain: voluntary
+    uk:
+      title: 'United Kingdom'
+      mandatory: [gluten_cereals, crustaceans, eggs, fish, peanuts, soy, milk, tree_nuts, celery, mustard, sesame, sulphites, lupin, molluscs]
+      exclude: [pine_nut]
+      name_specific: [gluten_cereals, tree_nuts]
+      statement: emphasis
+      may_contain: voluntary
+    ch:
+      title: 'Switzerland'
+      mandatory: [gluten_cereals, crustaceans, eggs, fish, peanuts, soy, milk, tree_nuts, celery, mustard, sesame, sulphites, lupin, molluscs]
+      exclude: [pine_nut]
+      name_specific: [gluten_cereals, tree_nuts]
+      statement: emphasis
+      may_contain: voluntary
+    us:
+      title: 'United States (FALCPA / FASTER Act)'
+      mandatory: [milk, eggs, fish, crustaceans, tree_nuts, wheat, peanuts, soy, sesame]
+      exclude: []
+      name_specific: [tree_nuts, fish, crustaceans]
+      statement: contains
+      may_contain: voluntary
+    ca:
+      title: 'Canada'
+      mandatory: [gluten_cereals, crustaceans, molluscs, eggs, fish, milk, mustard, peanuts, sesame, soy, sulphites, tree_nuts]
+      exclude: []
+      name_specific: [gluten_cereals, tree_nuts]
+      statement: contains
+      may_contain: voluntary
+    au_nz:
+      title: 'Australia / New Zealand (PEAL)'
+      mandatory: [gluten_cereals, crustaceans, molluscs, fish, eggs, milk, peanuts, soy, sesame, lupin, tree_nuts, sulphites]
+      exclude: []
+      name_specific: [gluten_cereals, tree_nuts]
+      statement: contains_required
+      may_contain: voluntary
+    jp:
+      title: 'Japan'
+      mandatory: [crustaceans, walnut, cashew, wheat, buckwheat, eggs, milk, peanuts]
+      exclude: []
+      name_specific: []
+      statement: contains
+      may_contain: prohibited
+    codex:
+      title: 'Codex Alimentarius (CXS 1-1985, 2024)'
+      mandatory: [gluten_cereals, crustaceans, eggs, fish, milk, peanuts, sesame, almond, cashew, hazelnut, pecan, pistachio, walnut]
+      exclude: [oats]
+      name_specific: [gluten_cereals]
+      statement: contains
+      may_contain: voluntary
