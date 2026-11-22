@@ -77,7 +77,7 @@ SilverShop\FoodInformation\Extension\FoodInformationExtension:
 
 ## Legal summary
 
-Researched in November 2026; sources and details in the project plan.
+Researched in November 2026.
 
 - **EU (Regulation 1169/2011):** 14 allergens; the specific cereal and nut must be named; allergens are emphasised in
   the ingredients list (a separate "Contains" box is only for food without an ingredients list). Online, every
