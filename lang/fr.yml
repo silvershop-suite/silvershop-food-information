@@ -5,6 +5,7 @@ fr:
     NoAllergens: 'Ne contient aucun des allergènes à déclarer.'
     NotChecked: 'Nous vérifions encore les informations sur les allergènes de ce produit. Si vous avez une allergie, contactez-nous avant de commander.'
     NutritionPer: 'Valeurs nutritionnelles pour {basis}'
+    Portion: 'portion : {serving}'
     Title: 'Ingrédients et allergènes'
   SilverShop\FoodInformation\Admin\FoodInformationAdmin:
     MENUTITLE: 'Informations alimentaires'

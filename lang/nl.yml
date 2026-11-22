@@ -5,6 +5,7 @@ nl:
     NoAllergens: 'Bevat geen van de allergenen die vermeld moeten worden.'
     NotChecked: 'We controleren de allergeneninformatie van dit product nog. Heb je een allergie? Neem dan contact met ons op voordat je bestelt.'
     NutritionPer: 'Voedingswaarde per {basis}'
+    Portion: 'portie: {serving}'
     Title: 'Ingrediënten en allergenen'
   SilverShop\FoodInformation\Admin\FoodInformationAdmin:
     MENUTITLE: 'Voedselinformatie'

@@ -34,7 +34,7 @@
 
     <% if $NutritionRows %>
         <table class="food-information__nutrition">
-            <caption><%t SilverShop\FoodInformation.NutritionPer "Nutrition per {basis}" basis=$NutritionBasis %><% if $NutritionServing %> · $NutritionServing<% end_if %></caption>
+            <caption><%t SilverShop\FoodInformation.NutritionPer "Nutrition per {basis}" basis=$NutritionBasis %><% if $NutritionServing %> · <%t SilverShop\FoodInformation.Portion "portion: {serving}" serving=$NutritionServing %><% end_if %></caption>
             <tbody>
                 <% loop $NutritionRows %>
                     <tr<% if $Sub %> class="food-information__nutrient--sub"<% end_if %>><th scope="row">$Label</th><td>$Value</td></tr>
